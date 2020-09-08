@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import java.io.PrintWriter;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,15 +18,20 @@ class Docent {
 
 public class Main {
     public static void main(String[] args) {
-//        ArrayList<Docent> docenten;
+
+        ArrayList<Docent> docenten = new ArrayList<Docent>();
         JSONParser parser = new JSONParser();
+
         try (FileReader fileReader = new FileReader("data.json")) {
-            Object obj = parser.parse(fileReader);
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONArray docenten = (JSONArray)jsonObject.get("docenten");
-            for (int i = 0; i < docenten.length(); i++) {
-                Docent docent = (Docent)docenten.get(i);
-                System.out.println(docent);
+            JSONObject jsonObject = (JSONObject)parser.parse(fileReader);
+            JSONArray arr = (JSONArray)jsonObject.get("docenten");
+            Iterator itr = arr.iterator();
+            while (itr.hasNext()) {
+                Docent docent = new Docent();
+                JSONObject obj = (JSONObject) itr.next();
+                String naam = (String) obj.get("naam");
+                docent.naam = naam;
+                docenten.add(docent);
             }
 
         } catch (FileNotFoundException e) {
@@ -33,6 +40,10 @@ public class Main {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        for (int i = 0; i < docenten.size(); i++) {
+            System.out.println(docenten.get(i).naam);
         }
     }
 }
