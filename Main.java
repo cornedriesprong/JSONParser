@@ -23,22 +23,11 @@ public class Main {
         JSONParser parser = new JSONParser();
 
         try (FileReader fileReader = new FileReader("data.json")) {
-            JSONObject jsonObject = (JSONObject)parser.parse(fileReader);
-            JSONArray arr = (JSONArray)jsonObject.get("docenten");
-            Iterator itr = arr.iterator();
-            while (itr.hasNext()) {
-                Docent docent = new Docent();
-                JSONObject obj = (JSONObject) itr.next();
-                String naam = (String) obj.get("naam");
-                docent.naam = naam;
-                docenten.add(docent);
-            }
+            
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
 
